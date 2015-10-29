@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Reversi.Model
+namespace Reversi_WPF.Model
 {
     /// <summary>
     /// Type of the Reversi set game ended event argument.

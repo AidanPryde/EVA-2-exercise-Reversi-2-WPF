@@ -1,11 +1,11 @@
 ﻿
-using Reversi.Persistence;
+using Reversi_WPF.Persistence;
 
 using System;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Reversi.Model
+namespace Reversi_WPF.Model
 {
     /// <summary>
     /// Type of the Reversi game.

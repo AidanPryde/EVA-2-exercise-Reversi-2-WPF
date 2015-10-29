@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Reversi_WPF
+namespace Reversi_WPF.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

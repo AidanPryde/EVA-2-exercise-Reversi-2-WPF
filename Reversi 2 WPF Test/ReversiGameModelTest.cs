@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reversi.Model;
-using Reversi.Persistence;
+using Reversi_WPF.Model;
+using Reversi_WPF.Persistence;
 using System.Threading.Tasks;
-//using System.Diagnostics;
+using System.Diagnostics;
 
-namespace ReversiTest
+namespace Reversi_WPF_Test
 {
     [TestClass]
     public class ReversiGameModelTest
@@ -427,7 +427,7 @@ namespace ReversiTest
                 //Debug.Print(_possibleGameCount.ToString());
             }
 
-            /*
+            
             Debug.Print(_maximumPossiblePutDownsSize.ToString());
             Debug.Print(_maximumReversedPutDownsSize.ToString());
             Debug.Print(_possibleGameCount.ToString());
@@ -435,7 +435,7 @@ namespace ReversiTest
             Debug.Print(_possibleResults[0].ToString());
             Debug.Print(_possibleResults[1].ToString());
             Debug.Print(_possibleResults[2].ToString());
-            */
+            
 
             /*
             Assert.AreEqual(0, _maximumPossiblePutDownsSize); // 9

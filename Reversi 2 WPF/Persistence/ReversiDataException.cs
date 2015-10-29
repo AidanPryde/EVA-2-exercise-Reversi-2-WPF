@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Reversi.Persistence
+namespace Reversi_WPF.Persistence
 {
     /// <summary>
     /// The type of the Reversi data access exception.
