@@ -7,6 +7,100 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Command="{Binding NewGameCommand}" />
+                <Separator />
+                <MenuItem Header="Load" Command="{Binding LoadGameCommand}" />
+                <MenuItem Header="Save" Command="{Binding SaveGameCommand}" />
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            
+            <MenuItem Header="Game">
+                <MenuItem Header="Size">
+                    <MenuItem Header="Small" IsCheckable="True" IsChecked="{Binding IsGameEasy}" />
+                    <MenuItem Header="Medium" IsCheckable="True" IsChecked="{Binding IsGameMedium}" />
+                    <MenuItem Header="Large" IsCheckable="True" IsChecked="{Binding IsGameHard}" />
+                </MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="Help">
+                <MenuItem Header="Rules" Command="{Binding RulesCommand}" />
+                <Separator />
+                <MenuItem Header="About Reversi" Command="{Binding AboutCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Command="{Binding PutDownCommand}" CommandParameter="{Binding Number}" Content="{Binding Text}" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="24" FontWeight="Bold">
+                        <!-- gomb háttérszíne -->
+                        <!-- gomb méretezése (csak az animációnál használjuk ki) -->
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
+                        <Button.Style>
+                            <!-- gomb stílusa, ahol a színét megadjuk -->
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <!-- a szín egy adatkötés hatására fog változni -->
+                                    <DataTrigger Binding="{Binding IsLocked}" Value="True">
+                                        <Setter Property="Background" Value="Yellow" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsLocked}" Value="False">
+                                        <Setter Property="Background" Value="White" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Triggers>
+                            <!-- animációk végrehajtása esemény hatására -->
+                            <EventTrigger RoutedEvent="Button.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:00:02" From="0" To="1" Storyboard.TargetProperty="Opacity" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Duration="0:00:00.2" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                            <ColorAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteColorKeyFrame Value="Red" KeyTime="0:00:00" />
+                                                <DiscreteColorKeyFrame Value="Black" KeyTime="0:00:00.2" />
+                                            </ColorAnimationUsingKeyFrames.KeyFrames>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" />
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <!--a függőségi tulajdonságokat kjülön kell kötnünk-->
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding X}" />
+                    <Setter Property="Grid.Column" Value="{Binding Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="{Binding GamePoints}" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

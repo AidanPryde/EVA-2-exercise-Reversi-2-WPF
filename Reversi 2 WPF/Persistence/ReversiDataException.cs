@@ -11,17 +11,26 @@ namespace Reversi_WPF.Persistence
 
         #region Fields
 
+        private String _info;
         private String _message;
 
         #endregion
 
         #region Properties
 
-        override public String Message
+        public String ReversiMessage
         {
             get
             {
                 return _message;
+            }
+        }
+
+        public String ReversiInfo
+        {
+            get
+            {
+                return _info;
             }
         }
 
@@ -32,10 +41,10 @@ namespace Reversi_WPF.Persistence
         /// <summary>
         /// Create Reversi data access exception instance.
         /// </summary>
-        public ReversiDataException(String source, String message)
+        public ReversiDataException(String message, String info)
         {
-            this.Source = source;
             _message = message;
+            _info = info;
         }
 
         #endregion
