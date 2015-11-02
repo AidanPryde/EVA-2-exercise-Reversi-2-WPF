@@ -580,7 +580,7 @@ namespace Reversi_WPF.Model
                 }
                 else
                 {
-                    throw new ReversiDataException("Error while validating loaded file data.", "We should have read a valid put down, instad we read something else ( " + x.ToString() + ", " + y.ToString() + " ).");
+                    throw new ReversiDataException("Error while validating put down data.", "We should have get a valid put down, instad we read something else ( " + x.ToString() + ", " + y.ToString() + " ).");
                 }
             }
             else // Player 2 put down.
@@ -599,7 +599,7 @@ namespace Reversi_WPF.Model
                 }
                 else
                 {
-                    throw new ReversiDataException("Error while validating loaded file data.", "We should have read a valid put down, instad we read something else ( " + x.ToString() + ", " + y.ToString() + " ).");
+                    throw new ReversiDataException("Error while validating put down data.", "We should have get a valid put down, instad we read something else ( " + x.ToString() + ", " + y.ToString() + " ).");
                 }
             }
 
