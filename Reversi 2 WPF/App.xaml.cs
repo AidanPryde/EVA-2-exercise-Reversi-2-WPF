@@ -86,7 +86,7 @@ namespace Reversi_WPF
         {
             _model.Pause();
 
-            if (/*_viewModel.Saved == false &&*/ MessageBox.Show(_view, "Are you sure, you want to exit without save?", "Reversi", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+            if (_viewModel.Saved == false && MessageBox.Show(_view, "Are you sure, you want to exit without save?", "Reversi", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
             {
                 e.Cancel = true; 
                 _model.Unpause();
@@ -100,6 +100,7 @@ namespace Reversi_WPF
         private void ViewModel_NewGame(object sender, EventArgs e)
         {
             _model.NewGame();
+            _view.SizeToContent = SizeToContent.WidthAndHeight;
         }
 
         private async void ViewModel_LoadGame(object sender, EventArgs e)
@@ -114,6 +115,7 @@ namespace Reversi_WPF
                 try
                 {
                     await _model.LoadGame(openFileDialog.FileName);
+                    _viewModel.Saved = false;
                 }
                 catch (ReversiDataException ex)
                 {
@@ -137,6 +139,7 @@ namespace Reversi_WPF
                 try
                 {
                     await _model.SaveGame(saveFileDialog.FileName);
+                    _viewModel.Saved = true;
                 }
                 catch (ReversiDataException ex)
                 {

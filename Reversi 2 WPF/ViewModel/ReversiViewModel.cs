@@ -9,7 +9,7 @@ namespace Reversi_WPF.ViewModel
 {
     public class ReversiViewModel : ViewModelBase
     {
-
+        private readonly Int32 _applicationDefaultMinimumHeight = 190;
 
         #region Fields
 
@@ -21,21 +21,17 @@ namespace Reversi_WPF.ViewModel
 
         private Boolean _saveMenuItemEnabled;
 
-        private Boolean _smallMenuItemEnabled;
-        private Boolean _mediumMenuItemEnabled;
-        private Boolean _largeMenuItemEnabled;
-
-        private Boolean _smallMenuItemChecked;
-        private Boolean _mediumMenuItemChecked;
-        private Boolean _largeMenuItemChecked;
-
         private Boolean _passButtonEnabled;
         private Boolean _pauseButtonEnabled;
+
+        private String _pauseText;
 
         private Int32 _player1Time;
         private Int32 _player2Time;
 
         private String _gamePoints;
+
+        private Boolean _saved;
 
         #endregion
 
@@ -53,33 +49,117 @@ namespace Reversi_WPF.ViewModel
 
         public DelegateCommand AboutCommand { get; private set; }
 
+        public DelegateCommand PassCommand { get; private set; }
+
+        public DelegateCommand PauseCommand { get; private set; }
+
         public ObservableCollection<ReversiCell> Cells { get; private set; }
 
-        public Int32 ApplicationMinimumHeight { get { return _applicationMinimumHeight; } private set { _applicationMinimumHeight = value; } }
+        public Int32 ApplicationHeight
+        {
+            get; private set;
+        }
 
-        public Boolean SaveMenuItemEnabled { get { return _saveMenuItemEnabled; } private set { _saveMenuItemEnabled = value; } }
+        public Int32 ApplicationWidth
+        {
+            get; private set;
+        }
 
-        public Boolean SmallMenuItemEnabled { get { return _smallMenuItemEnabled; } private set { _smallMenuItemEnabled = value; } }
+        public Int32 ApplicationMinimumHeight { get { return _applicationMinimumHeight; } }
 
-        public Boolean MediumMenuItemEnabled { get { return _mediumMenuItemEnabled; } private set { _mediumMenuItemEnabled = value; } }
+        public Boolean SaveMenuItemEnabled { get { return _saveMenuItemEnabled; } }
 
-        public Boolean LargeMenuItemEnabled { get { return _largeMenuItemEnabled; } private set { _largeMenuItemEnabled = value; } }
+        public Boolean SmallMenuItemEnabled
+        {
+            get
+            {
+                return !(SmallMenuItemChecked);
+            }
+        }
 
-        public Boolean SmallMenuItemChecked { get { return _smallMenuItemChecked; } set { _smallMenuItemChecked = value; } }
+        public Boolean MediumMenuItemEnabled
+        {
+            get
+            {
+                return !(MediumMenuItemChecked);
+            }
+        }
 
-        public Boolean MediumMenuItemChecked { get { return _mediumMenuItemChecked; } set { _mediumMenuItemChecked = value; } }
+        public Boolean LargeMenuItemEnabled
+        {
+            get
+            {
+                return !(LargeMenuItemChecked);
+            }
+        }
 
-        public Boolean LargeMenuItemChecked { get { return _largeMenuItemChecked; } set { _largeMenuItemChecked = value; } }
+        public Boolean SmallMenuItemChecked
+        {
+            get
+            {
+                return _model.TableSizeSetting == 10;
+            }
+            set
+            {
+                _model.TableSizeSetting = 10;
+                OnPropertyChanged("SmallMenuItemChecked");
+                OnPropertyChanged("MediumMenuItemChecked");
+                OnPropertyChanged("LargeMenuItemChecked");
+                OnPropertyChanged("SmallMenuItemEnabled");
+                OnPropertyChanged("MediumMenuItemEnabled");
+                OnPropertyChanged("LargeMenuItemEnabled");
+            }
+        }
 
-        public Boolean PassButtonEnabled { get { return _passButtonEnabled; } set { _passButtonEnabled = value; } }
+        public Boolean MediumMenuItemChecked
+        {
+            get
+            {
+                return _model.TableSizeSetting == 20;
+            }
+            set
+            {
+                _model.TableSizeSetting = 20;
+                OnPropertyChanged("SmallMenuItemChecked");
+                OnPropertyChanged("MediumMenuItemChecked");
+                OnPropertyChanged("LargeMenuItemChecked");
+                OnPropertyChanged("SmallMenuItemEnabled");
+                OnPropertyChanged("MediumMenuItemEnabled");
+                OnPropertyChanged("LargeMenuItemEnabled");
+            }
+        }
 
-        public Boolean PauseButtonEnabled { get { return _pauseButtonEnabled; } set { _pauseButtonEnabled = value; } }
+        public Boolean LargeMenuItemChecked
+        {
+            get
+            {
+                return _model.TableSizeSetting == 30;
+            }
+            set
+            {
+                _model.TableSizeSetting = 30;
+                OnPropertyChanged("SmallMenuItemChecked");
+                OnPropertyChanged("MediumMenuItemChecked");
+                OnPropertyChanged("LargeMenuItemChecked");
+                OnPropertyChanged("SmallMenuItemEnabled");
+                OnPropertyChanged("MediumMenuItemEnabled");
+                OnPropertyChanged("LargeMenuItemEnabled");
+            }
+        }
 
-        public Int32 Player1Time { get { return _player1Time; } private set { _player1Time = value; } }
+        public Boolean PassButtonEnabled { get { return _passButtonEnabled; } }
 
-        public Int32 Player2Time { get { return _player2Time; } private set { _player2Time = value; } }
+        public Boolean PauseButtonEnabled { get { return _pauseButtonEnabled; } }
 
-        public String GamePoints { get { return _gamePoints; } private set { _gamePoints = value; } }
+        public String PauseText { get { return _pauseText; } }
+
+        public Int32 Player1Time { get { return _player1Time; } }
+
+        public Int32 Player2Time { get { return _player2Time; } }
+
+        public String GamePoints { get { return _gamePoints; } }
+
+        public Boolean Saved { get { return _saved; } set { _saved = value; } }
 
         #endregion
 
@@ -107,38 +187,49 @@ namespace Reversi_WPF.ViewModel
         /// <param name="model">A modell típusa.</param>
         public ReversiViewModel(ReversiGameModel model)
         {
+            
+
             _model = model;
             _model.SetGameEnded += new EventHandler<ReversiSetGameEndedEventArgs>(Model_SetGameEnded);
             _model.UpdatePlayerTime += new EventHandler<ReversiUpdatePlayerTimeEventArgs>(Model_UpdatePlayerTime);
             _model.UpdateTable += new EventHandler<ReversiUpdateTableEventArgs>(Model_UpdateTable);
 
-            NewGameCommand = new DelegateCommand(param => { OnNewGame(); /*RefreshTable();*/ });
-            LoadGameCommand = new DelegateCommand(param => { OnLoadGame(); /*RefreshTable();*/ });
+            NewGameCommand = new DelegateCommand(param => { OnNewGame(); });
+            LoadGameCommand = new DelegateCommand(param => { OnLoadGame(); });
             SaveGameCommand = new DelegateCommand(param => OnSaveGame());
             ExitApplicationCommand = new DelegateCommand(param => OnExitApplication());
 
             RulesCommand = new DelegateCommand(param => OnReadRules());
             AboutCommand = new DelegateCommand(param => OnReadAbout());
 
+            PassCommand = new DelegateCommand(param => OnPass());
+            PauseCommand = new DelegateCommand(param => OnPause());
+
             Cells = new ObservableCollection<ReversiCell>();
 
-            _applicationMinimumHeight = 190;
+            _applicationMinimumHeight = _applicationDefaultMinimumHeight;
             OnPropertyChanged("ApplicationMinimumHeight");
+
+            _saved = true;
 
             _saveMenuItemEnabled = false;
             OnPropertyChanged("SaveMenuItemEnabled");
-            _smallMenuItemEnabled = false;
-            OnPropertyChanged("SmallMenuItemEnabled");
-            _mediumMenuItemEnabled = true;
-            OnPropertyChanged("MediumMenuItemEnabled");
-            _largeMenuItemEnabled = true;
-            OnPropertyChanged("LargeMenuItemEnabled");
-            _smallMenuItemChecked = true;
-            OnPropertyChanged("SmallMenuItemChecked");
-            _mediumMenuItemChecked = false;
-            OnPropertyChanged("MediumMenuItemChecked");
-            _largeMenuItemChecked = false;
-            OnPropertyChanged("LargeMenuItemChecked");
+
+            _passButtonEnabled = false;
+            OnPropertyChanged("PassButtonEnabled");
+            _pauseButtonEnabled = false;
+            OnPropertyChanged("PauseButtonEnabled");
+
+            _pauseText = "Pause";
+            OnPropertyChanged("PauseText");
+
+            _player1Time = 0;
+            OnPropertyChanged("Player1Time");
+            _player2Time = 0;
+            OnPropertyChanged("Player2Time");
+
+            _gamePoints = "";
+            OnPropertyChanged("GamePoints");
         }
 
         #endregion
@@ -149,18 +240,25 @@ namespace Reversi_WPF.ViewModel
         {
             ReversiCell cell = Cells[index];
 
-            _model.PutDown(cell.X, cell.Y);
+            if (cell.Enabled == true)
+            {
+                _model.PutDown(cell.X, cell.Y);
+            }
         }
 
         public void SetButtonGridUp()
         {
-            Cells.Clear();
-            for (Int32 i = 0; i < _model.ActiveTableSize; ++i)
+            if (Cells.Count == 0 || Cells.Count != _model.ActiveTableSize * _model.ActiveTableSize)
             {
-                for (Int32 j = 0; j < _model.ActiveTableSize; ++j)
+                Cells.Clear();
+                for (Int32 i = 0; i < _model.ActiveTableSize; ++i)
                 {
-                    Cells.Add(new ReversiCell(new DelegateCommand(param => MakePutDown(Convert.ToInt32(param))), i, j, ((i * _model.ActiveTableSize) + j)));
+                    for (Int32 j = 0; j < _model.ActiveTableSize; ++j)
+                    {
+                        Cells.Add(new ReversiCell(new DelegateCommand(param => MakePutDown(Convert.ToInt32(param))), i, j, ((i * _model.ActiveTableSize) + j)));
+                    }
                 }
+                
             }
         }
 
@@ -250,8 +348,6 @@ namespace Reversi_WPF.ViewModel
                 default:
                     throw new Exception("Model gave us a number, that we was not ready for, while updating the table view.");
             }
-
-            //OnPropertyChanged("Cells");
         }
 
         #endregion
@@ -260,26 +356,54 @@ namespace Reversi_WPF.ViewModel
 
         private void Model_SetGameEnded(object sender, ReversiSetGameEndedEventArgs e)
         {
-            // disable pause and pass buttons and save button
-            // it is saved
+            _passButtonEnabled = false;
+            OnPropertyChanged("PassButtonEnabled");
+            _pauseButtonEnabled = false;
+            OnPropertyChanged("PauseButtonEnabled");
+
+            _saved = true;
+            _saveMenuItemEnabled = false;
+            OnPropertyChanged("SaveMenuItemEnabled");
         }
 
         private void Model_UpdatePlayerTime(object sender, ReversiUpdatePlayerTimeEventArgs e)
         {
-            // update player time
+            if (e.IsPlayer1TimeNeedUpdate)
+            {
+                _player1Time = e.NewTime;
+                OnPropertyChanged("Player1Time");
+            }
+            else
+            {
+                _player2Time = e.NewTime;
+                OnPropertyChanged("Player2Time");
+            }
         }
 
         private void Model_UpdateTable(object sender, ReversiUpdateTableEventArgs e)
         {
-            // it is NOT saved
+            _saved = false;
+            _saveMenuItemEnabled = true;
+            OnPropertyChanged("SaveMenuItemEnabled");
+            
 
-            // update points
+
+            _gamePoints = "Player 1: " + e.Player1Points + " -- Player 2: " + e.Player2Points;
+            OnPropertyChanged("GamePoints");
+
             _isPlayer1TurnOn = e.IsPlayer1TurnOn;
 
-            // passing button seting
+            _passButtonEnabled = e.IsPassingTurnOn;
+            OnPropertyChanged("PassButtonEnabled");
 
             if (e.UpdatedFieldsCount == 0)
             {
+                _pauseButtonEnabled = true;
+                OnPropertyChanged("PauseButtonEnabled");
+
+                _pauseText = "Pause";
+                OnPropertyChanged("PauseText");
+
                 SetButtonGridUp();
 
                 Int32 index = 0;
@@ -318,6 +442,11 @@ namespace Reversi_WPF.ViewModel
             if (LoadGame != null)
             {
                 LoadGame(this, EventArgs.Empty);
+                if (_saved == false)
+                {
+                    _saveMenuItemEnabled = true;
+                    OnPropertyChanged("SaveMenuItemEnabled");
+                }
             }
         }
 
@@ -326,6 +455,11 @@ namespace Reversi_WPF.ViewModel
             if (SaveGame != null)
             {
                 SaveGame(this, EventArgs.Empty);
+                if (_saved == true)
+                {
+                    _saveMenuItemEnabled = false;
+                    OnPropertyChanged("SaveMenuItemEnabled");
+                }
             }
         }
 
@@ -350,6 +484,30 @@ namespace Reversi_WPF.ViewModel
             if (ReadAbout != null)
             {
                 ReadAbout(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnPass()
+        {
+            _model.Pass();
+            _saved = false;
+            _saveMenuItemEnabled = true;
+            OnPropertyChanged("SaveMenuItemEnabled");
+        }
+
+        private void OnPause()
+        {
+            if (_pauseText == "Pause")
+            {
+                _pauseText = "Unpause";
+                _model.Pause();
+                OnPropertyChanged("PauseText");
+            }
+            else
+            {
+                _pauseText = "Pause";
+                _model.Unpause();
+                OnPropertyChanged("PauseText");
             }
         }
 
