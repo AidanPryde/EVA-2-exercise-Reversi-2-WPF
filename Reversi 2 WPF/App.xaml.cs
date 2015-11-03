@@ -100,7 +100,7 @@ namespace Reversi_WPF
         private void ViewModel_NewGame(object sender, EventArgs e)
         {
             _model.NewGame();
-            _view.SizeToContent = SizeToContent.WidthAndHeight;
+            _view.SizeToContent = SizeToContent.WidthAndHeight; //TODO: At 30x30 it is getting too big. Well at least it wont go out of the screenthat much. Maybe should set Maximum height.
         }
 
         private async void ViewModel_LoadGame(object sender, EventArgs e)

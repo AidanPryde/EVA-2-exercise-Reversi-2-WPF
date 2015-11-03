@@ -255,6 +255,7 @@ namespace Reversi_WPF.ViewModel
                 {
                     for (Int32 j = 0; j < _model.ActiveTableSize; ++j)
                     {
+                        //TODO: Only create the new ones? It seams even harder then in WFA.
                         Cells.Add(new ReversiCell(new DelegateCommand(param => MakePutDown(Convert.ToInt32(param))), i, j, ((i * _model.ActiveTableSize) + j)));
                     }
                 }
