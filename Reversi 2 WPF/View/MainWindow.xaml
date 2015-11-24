@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Reversi_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="190" Width="460" MinHeight="{Binding ApplicationMinimumHeight}" MinWidth="460">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -40,13 +41,15 @@
         </Menu>
 
         <Grid Grid.Row="1">
+            
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            
             <Grid Grid.Column="0"></Grid>
             <GroupBox Grid.Column="1" Header="Player 1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="150" Margin="10, 10, 10, 10">
                 <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="85" Width="145" Margin="0, 0, 0, 0">
@@ -59,7 +62,6 @@
                 <Button Command="{Binding PassCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="80" Margin="0, 10, 0, 0" Content="Pass" IsEnabled="{Binding PassButtonEnabled}"></Button>
                 <Button Command="{Binding PauseCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="80" Margin="0, 55, 0, 0" Content="{Binding PauseText}" IsEnabled="{Binding PauseButtonEnabled}"></Button>
             </Grid>
-
 
             <GroupBox Grid.Column="3" Header="Player 2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="150" Margin="10, 10, 10, 10">
                 <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="150" Margin="0, 0, 0, 0">
@@ -78,15 +80,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button MinWidth="40" MinHeight="40" Margin="0, 0, 0, 0" Command="{Binding PutDownCommand}" CommandParameter="{Binding Index}" Content="{Binding Text}" IsEnabled="true" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="12" FontWeight="Bold">
+                    <Button  MinWidth="40" MinHeight="40" Margin="0, 0, 0, 0" Command="{Binding PutDownCommand}" CommandParameter="{Binding Index}" Content="{Binding Text}" IsEnabled="true" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="12" FontWeight="Bold" BorderBrush="Gray">
                         <Button.RenderTransform>
                             <ScaleTransform ScaleX="1" ScaleY="1" />
                         </Button.RenderTransform>
                         <Button.Style>
-                            <!-- gomb stílusa, ahol a színét megadjuk -->
                             <Style TargetType="Button">
                                 <Style.Triggers>
-                                    <!-- a szín egy adatkötés hatására fog változni -->
                                     <DataTrigger Binding="{Binding BackColorInt}" Value="0">
                                         <Setter Property="Background" Value="White" />
                                     </DataTrigger>
@@ -114,11 +114,34 @@
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:00:01" From="0" To="1" Storyboard.TargetProperty="Opacity" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" />
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Button.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation AutoReverse="True" Storyboard.TargetProperty="BorderThickness" Duration="00:00:00.15" From="1, 1, 1, 1" To="3, 3, 3, 3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
-                <!--a függőségi tulajdonságokat kjülön kell kötnünk-->
                 <Style>
                     <Setter Property="Grid.Row" Value="{Binding X}" />
                     <Setter Property="Grid.Column" Value="{Binding Y}" />

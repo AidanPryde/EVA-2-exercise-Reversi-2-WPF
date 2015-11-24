@@ -36,6 +36,7 @@ namespace Reversi_WPF
         private ReversiGameModel _model;
         private ReversiViewModel _viewModel;
         private MainWindow _view;
+        private AboutMessage _aboutView;
 
         #endregion
 
@@ -82,6 +83,11 @@ namespace Reversi_WPF
 
         #region View event handlers
 
+        /// <summary>
+        /// Invoked, when we try to close the application.
+        /// </summary>
+        /// <param name="sender">This. We do not use this.</param>
+        /// <param name="e">It contains the Cancel property, that tell the program to be closed or not.</param>
         private void View_Closing(object sender, CancelEventArgs e)
         {
             _model.Pause();
@@ -105,7 +111,8 @@ namespace Reversi_WPF
 
         private async void ViewModel_LoadGame(object sender, EventArgs e)
         {
-            
+            _model.Pause();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Loading Reversi game";
             openFileDialog.Filter = "Reversi game|*.reversi";
@@ -126,10 +133,14 @@ namespace Reversi_WPF
                     MessageBox.Show(_view, ex.Message, "Reversi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+
+            _model.Unpause();
         }
 
         private async void ViewModel_SaveGame(object sender, EventArgs e)
         {
+            _model.Pause();
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Title = "Saving Reversi game";
             saveFileDialog.Filter = "Reversi game|*.reversi";
@@ -150,6 +161,8 @@ namespace Reversi_WPF
                     MessageBox.Show(ex.Message, "Reversi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+
+            _model.Unpause();
         }
 
         private void ViewModel_ExitApplication(object sender, EventArgs e)
@@ -159,18 +172,39 @@ namespace Reversi_WPF
 
         private void ViewModel_ReadRules(object sender, EventArgs e)
         {
-            MessageBox.Show(_view, "Always the white starts the game. If he can he chooses a put down location, only if he can not he passes. Then the black do the same then the white again, and so on ... ." + Environment.NewLine + "You have to straddle the enemy put downs to make a put down and to make them yours. You can do it in all directions. The game ends if no one can make a put down. The player with the more put downs win.", "Reversi", MessageBoxButton.OK, MessageBoxImage.Information);
+            _model.Pause();
+
+            MessageBox.Show(_view, "Always the white starts the game. If he can he chooses a put down location, only if he can not he passes. Then the black do the same then the white again, and so on ... ." + Environment.NewLine + "You have to straddle the enemy put downs to make a put down and to make them yours. You can do it in all directions. The game ends if no one can make a put down. The player with the more put downs win.", "Reversi", MessageBoxButton.OK, MessageBoxImage.None);
+
+            _model.Unpause();
         }
 
         private void ViewModel_ReadAbout(object sender, EventArgs e)
         {
-            MessageBox.Show(_view, "Created by Peskó Márton. It was a assignment at" + Environment.NewLine + "Eötvös Loránd University(http://www.elte.hu/)" + Environment.NewLine + "Faculty of Informatics(http://www.inf.elte.hu/english/Lapok/default.aspx)" + Environment.NewLine + "Software Information Technologist BsC.major" + Environment.NewLine + "Software Development Specialisation" + Environment.NewLine + "in the Eseményvezérelt Alkalmazások Fejlesztése 2.exercise." + Environment.NewLine + Environment.NewLine + "This program was created with Visual Studio Enterprise 2015 using a C# programing language with Microsoft .NET 4.6 framework." + Environment.NewLine + Environment.NewLine + "It is a Windows Form Aplication(WFA)." + Environment.NewLine  + Environment.NewLine + "You can download the source code from https://github.com/AidanPryde/Reversi-exercise-EVA-2 webpage, for this program and in its other forms like as Windows Presentation Foundation (WPF) or as Windows Runtime (WinRT) impementations.", "Reversi", MessageBoxButton.OK, MessageBoxImage.Information);
+            _model.Pause();
+
+            /* // It throws an exception, if opened the secound time.
+            if (_aboutView == null)
+            {
+                _aboutView = new AboutMessage()
+            }
+            */
+
+            _aboutView = new AboutMessage(); //TODO: Do I have to recreate it?
+            _aboutView.ShowDialog();
+
+            _model.Unpause();
         }
 
         #endregion
 
         #region Model event handlers
 
+        /// <summary>
+        /// Invoked by the model, when the game ended.
+        /// </summary>
+        /// <param name="sender">The model. We do not use this.</param>
+        /// <param name="e">The data that helps us to write out the result of the game.</param>
         private void Model_SetGameEnded(object sender, ReversiSetGameEndedEventArgs e)
         {
             if (e.Player1Points > e.Player2Points)

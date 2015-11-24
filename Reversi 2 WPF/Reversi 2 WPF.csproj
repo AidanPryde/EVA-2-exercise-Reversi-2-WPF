@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\AboutMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +82,9 @@
     <Compile Include="ViewModel\ReversiCell.cs" />
     <Compile Include="ViewModel\ReversiViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AboutMessage.xaml.cs">
+      <DependentUpon>AboutMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -99,16 +108,35 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Documentation\App.cd" />
+    <None Include="Documentation\Dokumentáció.docx" />
+    <None Include="Documentation\Dokumentáció.pdf" />
+    <None Include="Documentation\Model.cd" />
+    <None Include="Documentation\Persistence.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Documentation\ViewModel.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\p.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Documentation\Feladatleírás.txt" />
+    <Resource Include="Documentation\Felhasználói esetek diagramja.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Documentation\A program csomag diagramja.png" />
+    <Resource Include="Documentation\Model osztály diagram.png" />
+    <Resource Include="Documentation\NézetModel osztály diagramja.png" />
+    <Resource Include="Documentation\Perszitancia osztály diagramja.png" />
+    <Resource Include="Documentation\Vezérlés osztály diagramja.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

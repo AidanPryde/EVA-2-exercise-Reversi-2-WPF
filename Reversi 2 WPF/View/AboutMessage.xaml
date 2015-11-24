@@ -1,0 +1,65 @@
+﻿<Window x:Class="Reversi_WPF.View.AboutMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Reversi_WPF.View"
+        mc:Ignorable="d"
+        Title="Reveri" Height="310" Width="480"
+        ResizeMode="NoResize">
+    <Grid Margin="0, 0, 0, 0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0" Width="60" Height="60" VerticalAlignment="Top" Margin="5, 10, 0, 0" Source="/Resources/P.png"></Image>
+
+            <RichTextBox IsDocumentEnabled="True" Padding="5, 5, 5, 5" Grid.Column="1" BorderThickness="0" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" IsReadOnly="True" x:Name="richTextBox" HorizontalAlignment="Left" Height="230" VerticalAlignment="Top" Width="Auto">
+                <FlowDocument>
+                    <Paragraph Margin="0">
+                        <Run Text="Created by Peskó Márton. It was a assignment at"/>
+                    </Paragraph>
+                    <Paragraph Margin="0">
+                        <Run Text="Eötvös Loránd University"/>
+                        <Hyperlink>http://www.elte.hu/</Hyperlink>
+                    </Paragraph>
+                    <Paragraph Margin="0">
+                        <Run Text="Faculty of Informatics"/>
+                        <Hyperlink>http://www.inf.elte.hu/english/Lapok/default.aspx</Hyperlink>
+                    </Paragraph>
+                    <Paragraph Margin="0">
+                        <Run Text="Software Information Technologist BsC.major"/>
+                    </Paragraph>
+                    <Paragraph Margin="0">
+                        <Run Text="Software Development Specialisation"/>
+                    </Paragraph>
+                    <Paragraph Margin="0">
+                        <Run Text="in the Eseményvezérelt Alkalmazások Fejlesztése 2. exercise."/>
+                    </Paragraph>
+                    <Paragraph Margin="0, 10, 0, 0">
+                        <Run Text="This program was created with Visual Studio Enterprise 2015 using a C# programing language with Microsoft .NET 4.6 framework."/>
+                    </Paragraph>
+                    <Paragraph Margin="0, 10, 0, 0">
+                        <Run Text="It is a Windows Presentation Foundation (WPF) application. " />
+                    </Paragraph>
+                    <Paragraph Margin="0, 10, 0, 0">
+                        <Run Text="You can download the source code from" />
+                        <Hyperlink>https://github.com/AidanPryde/Reversi-exercise-EVA-2</Hyperlink>
+                        <Run Text="webpage, for this program and in its other forms like as Windows Froms Application (WFA) or as Windows Runtime (WinRT) impementations." />
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
+        
+        <Button  Grid.Row="1" Width="75" Click="Button_Click" HorizontalAlignment="Right" Margin="0, 10, 30, 0">Ok</Button>
+    </Grid>
+</Window>

@@ -12,16 +12,44 @@ namespace Reversi_WPF.ViewModel
 
         #region Fields
 
+        /// <summary>
+        /// If false, it still can be clicked, but no model action will be called.
+        /// </summary>
         private Boolean _enabled;
+
+        /// <summary>
+        /// We have two state now 'o' Or ''. It is to show if is there a possible put down.
+        /// </summary>
         private String _text;
+
+        /// <summary>
+        /// To distinguish the player 1 and player 2 possible put downs.
+        /// </summary>
         private Int32 _textColorInt;
+
+        /// <summary>
+        /// To see what kind of the cell is.
+        /// </summary>
         private Int32 _backColorInt;
 
+        /// <summary>
+        /// The X coordinate of the cell in the grid.
+        /// </summary>
         private Int32 _x;
+
+        /// <summary>
+        /// The Y coordinate of the cell in the grid.
+        /// </summary>
         private Int32 _y;
 
+        /// <summary>
+        /// The tabindex in the grib.
+        /// </summary>
         private Int32 _index;
 
+        /// <summary>
+        /// What to do when clicked?
+        /// </summary>
         private DelegateCommand _putDownCommand;
 
         #endregion
@@ -37,7 +65,7 @@ namespace Reversi_WPF.ViewModel
 
             set
             {
-                if (_enabled != value)
+                if (_enabled != value) // Only refresh if has to.
                 {
                     _enabled = value;
                     OnPropertyChanged();
@@ -54,7 +82,7 @@ namespace Reversi_WPF.ViewModel
 
             set
             {
-                if (_text != value)
+                if (_text != value) // Only refresh if has to.
                 {
                     _text = value;
                     OnPropertyChanged();
@@ -71,7 +99,7 @@ namespace Reversi_WPF.ViewModel
 
             set
             {
-                if (_textColorInt != value)
+                if (_textColorInt != value) // Only refresh if has to.
                 {
                     _textColorInt = value;
                     OnPropertyChanged();
@@ -88,7 +116,7 @@ namespace Reversi_WPF.ViewModel
 
             set
             {
-                if (_backColorInt != value)
+                if (_backColorInt != value) // Only refresh if has to.
                 {
                     _backColorInt = value;
                     OnPropertyChanged();
@@ -131,6 +159,17 @@ namespace Reversi_WPF.ViewModel
 
         #region Constructors
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="putDown">The delegate to do, when clicked.</param>
+        /// <param name="x">The X coordinate of the cell in the grid.</param>
+        /// <param name="y">The Y coordinate of the cell in the grid.</param>
+        /// <param name="index">The tabindex in the grib.</param>
+        /// <param name="enabled">If false, it still can be clicked, but no model action will be called.</param>
+        /// <param name="text">We have two state now 'o' Or ''. It is to show if is there a possible put down.</param>
+        /// <param name="textColorInt">To distinguish the player 1 and player 2 possible put downs.</param>
+        /// <param name="backColorInt">To see what kind of the cell is.</param>
         public ReversiCell(DelegateCommand putDown, Int32 x, Int32 y, Int32 index, Boolean enabled = false, String text = "", Int32 textColorInt = 0, Int32 backColorInt = 0)
         {
             _putDownCommand = putDown;

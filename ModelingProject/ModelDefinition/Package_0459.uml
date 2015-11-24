@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="4ab7f8a4-64d8-469c-9847-5400949b8876"
+  name="Application" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <importedPackagesInternal>
+    <packageImport
+      Id="f6b71543-bc2c-4e3d-a430-aec42ab93c30"
+      visibility="Public">
+      <packageMoniker
+        Id="a94e8d07-9e7a-4729-90ba-6a0afd9bf473"
+        LastKnownName="Persistence"
+        LastKnownLocation="Package2_0459.uml" />
+    </packageImport>
+    <packageImport
+      Id="734f3b5a-a83e-4c71-b827-13f6e880c824"
+      visibility="Public">
+      <packageMoniker
+        Id="139463bc-c88b-44ec-beb3-10c3fb116dd9"
+        LastKnownName="View"
+        LastKnownLocation="Package3_0459.uml" />
+    </packageImport>
+    <packageImport
+      Id="2fd73da6-a604-4c0a-bd63-20b381a1e560"
+      visibility="Public">
+      <packageMoniker
+        Id="41286550-e082-4873-a942-6c463f2d66a0"
+        LastKnownName="Model"
+        LastKnownLocation="Package1_0459.uml" />
+    </packageImport>
+    <packageImport
+      Id="d3073ebb-2f46-4cfc-b3d5-a175ed73dbd8"
+      visibility="Public">
+      <packageMoniker
+        Id="610828e8-27c6-4129-981c-1337e0e58b28"
+        LastKnownName="ViewModel"
+        LastKnownLocation="Package_0458.uml" />
+    </packageImport>
+  </importedPackagesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="f7ef3e2e-1c98-4913-a3d5-7ccb24b28f16"
+        name="App"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

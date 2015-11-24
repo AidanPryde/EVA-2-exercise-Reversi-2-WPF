@@ -2,35 +2,70 @@
 using Reversi_WPF.Model;
 
 using System;
-using System.Windows.Threading;
 using System.Collections.ObjectModel;
 
 namespace Reversi_WPF.ViewModel
 {
     public class ReversiViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Calculated beforehand to fit the view.
+        /// </summary>
         private readonly Int32 _applicationDefaultMinimumHeight = 190;
 
         #region Fields
 
+        /// <summary>
+        /// The model of the application.
+        /// </summary>
         private ReversiGameModel _model;
 
+        /// <summary>
+        /// To follow whos turn it is when updating the view.
+        /// </summary>
         private Boolean _isPlayer1TurnOn;
 
+        /// <summary>
+        /// Possibly to (re)set the minimum height of the application, when staring or loading a game.
+        /// </summary>
         private Int32 _applicationMinimumHeight;
 
+        /// <summary>
+        /// Did we saved our game? Used to safe exit.
+        /// </summary>
         private Boolean _saveMenuItemEnabled;
 
+        /// <summary>
+        /// To set pass button to enabled or disabled.
+        /// </summary>
         private Boolean _passButtonEnabled;
+        /// <summary>
+        /// To set pause button to enabled or disabled.
+        /// </summary>
         private Boolean _pauseButtonEnabled;
 
+        /// <summary>
+        /// To set pause button text from 'Pause' to 'Unpause' and reversed.
+        /// </summary>
         private String _pauseText;
 
+        /// <summary>
+        /// To set player 1 used time.
+        /// </summary>
         private Int32 _player1Time;
+        /// <summary>
+        /// To set palyer 2 used time.
+        /// </summary>
         private Int32 _player2Time;
 
+        /// <summary>
+        /// To update the status bar with the players points.
+        /// </summary>
         private String _gamePoints;
 
+        /// <summary>
+        /// To follow if we can safly exit the game.
+        /// </summary>
         private Boolean _saved;
 
         #endregion
@@ -57,17 +92,33 @@ namespace Reversi_WPF.ViewModel
 
         public Int32 ApplicationHeight
         {
-            get; private set;
+            get;
+
+            private set;
         }
 
         public Int32 ApplicationWidth
         {
-            get; private set;
+            get;
+
+            private set;
         }
 
-        public Int32 ApplicationMinimumHeight { get { return _applicationMinimumHeight; } }
+        public Int32 ApplicationMinimumHeight
+        {
+            get
+            {
+                return _applicationMinimumHeight;
+            }
+        }
 
-        public Boolean SaveMenuItemEnabled { get { return _saveMenuItemEnabled; } }
+        public Boolean SaveMenuItemEnabled
+        {
+            get
+            {
+                return _saveMenuItemEnabled;
+            }
+        }
 
         public Boolean SmallMenuItemEnabled
         {
@@ -93,12 +144,13 @@ namespace Reversi_WPF.ViewModel
             }
         }
 
-        public Boolean SmallMenuItemChecked
+        public Boolean SmallMenuItemChecked //TODO: Can we do it with less invoke? We do not refresh if there is no change, so maybe we do not have to look for a possibly better sollution.
         {
             get
             {
                 return _model.TableSizeSetting == 10;
             }
+
             set
             {
                 _model.TableSizeSetting = 10;
@@ -111,12 +163,13 @@ namespace Reversi_WPF.ViewModel
             }
         }
 
-        public Boolean MediumMenuItemChecked
+        public Boolean MediumMenuItemChecked //TODO: Can we do it with less invoke? We do not refresh if there is no change, so maybe we do not have to look for a possibly better sollution.
         {
             get
             {
                 return _model.TableSizeSetting == 20;
             }
+
             set
             {
                 _model.TableSizeSetting = 20;
@@ -129,12 +182,13 @@ namespace Reversi_WPF.ViewModel
             }
         }
 
-        public Boolean LargeMenuItemChecked
+        public Boolean LargeMenuItemChecked //TODO: Can we do it with less invoke? We do not refresh if there is no change, so maybe we do not have to look for a possibly better sollution.
         {
             get
             {
                 return _model.TableSizeSetting == 30;
             }
+
             set
             {
                 _model.TableSizeSetting = 30;
@@ -159,7 +213,11 @@ namespace Reversi_WPF.ViewModel
 
         public String GamePoints { get { return _gamePoints; } }
 
-        public Boolean Saved { get { return _saved; } set { _saved = value; } }
+        public Boolean Saved
+        {
+            get { return _saved; }
+            set { _saved = value; }
+        }
 
         #endregion
 
@@ -182,13 +240,12 @@ namespace Reversi_WPF.ViewModel
         #region Constructors
 
         /// <summary>
-        /// Sudoku nézetmodell példányosítása.
+        /// Creaeting the reversi ViewModel.
         /// </summary>
-        /// <param name="model">A modell típusa.</param>
+        /// <param name="model">The Model type, which it will use.</param>
         public ReversiViewModel(ReversiGameModel model)
         {
-            
-
+            // Initialize what we have to.
             _model = model;
             _model.SetGameEnded += new EventHandler<ReversiSetGameEndedEventArgs>(Model_SetGameEnded);
             _model.UpdatePlayerTime += new EventHandler<ReversiUpdatePlayerTimeEventArgs>(Model_UpdatePlayerTime);
@@ -236,6 +293,10 @@ namespace Reversi_WPF.ViewModel
 
         #region Private methods
 
+        /// <summary>
+        /// When the cell is clicked this is called.
+        /// </summary>
+        /// <param name="index">The tab index of the button, which was clicked.</param>
         private void MakePutDown(Int32 index)
         {
             ReversiCell cell = Cells[index];
@@ -248,6 +309,7 @@ namespace Reversi_WPF.ViewModel
 
         public void SetButtonGridUp()
         {
+            // If there is a size change.
             if (Cells.Count == 0 || Cells.Count != _model.ActiveTableSize * _model.ActiveTableSize)
             {
                 Cells.Clear();
@@ -259,10 +321,15 @@ namespace Reversi_WPF.ViewModel
                         Cells.Add(new ReversiCell(new DelegateCommand(param => MakePutDown(Convert.ToInt32(param))), i, j, ((i * _model.ActiveTableSize) + j)));
                     }
                 }
-                
             }
         }
 
+        /// <summary>
+        /// Update a cell.
+        /// </summary>
+        /// <param name="x">The X coordiante of the cell.</param>
+        /// <param name="y">The Y coordiante of the cell.</param>
+        /// <param name="value">The number which will tell us what to do. Read more about it in the model (_table).</param>
         public void UpdateCell(Int32 x, Int32 y, Int32 value)
         {
             Int32 index = ((x * _model.ActiveTableSize) + y);
@@ -298,7 +365,6 @@ namespace Reversi_WPF.ViewModel
                     else
                     {
                         cell.Text = "";
-
                         cell.Enabled = false;
                     }
 
@@ -317,7 +383,6 @@ namespace Reversi_WPF.ViewModel
                     else
                     {
                         cell.Text = "";
-
                         cell.Enabled = false;
                     }
 
@@ -355,6 +420,11 @@ namespace Reversi_WPF.ViewModel
 
         #region Game event handlers
 
+        /// <summary>
+        /// Model invoked this. The game ended.
+        /// </summary>
+        /// <param name="sender">The model. We do not use this.</param>
+        /// <param name="e">The data of the ended game. We do not use it here. Controll will hadle it.</param>
         private void Model_SetGameEnded(object sender, ReversiSetGameEndedEventArgs e)
         {
             _passButtonEnabled = false;
@@ -367,6 +437,11 @@ namespace Reversi_WPF.ViewModel
             OnPropertyChanged("SaveMenuItemEnabled");
         }
 
+        /// <summary>
+        /// Model invoked this. One of the player time has advanced.
+        /// </summary>
+        /// <param name="sender">The model. We do not use this.</param>
+        /// <param name="e">The data, which help us update the view.</param>
         private void Model_UpdatePlayerTime(object sender, ReversiUpdatePlayerTimeEventArgs e)
         {
             if (e.IsPlayer1TimeNeedUpdate)
@@ -381,13 +456,16 @@ namespace Reversi_WPF.ViewModel
             }
         }
 
+        /// <summary>
+        /// Model invoked this. The table needs update.
+        /// </summary>
+        /// <param name="sender">The model. We do not use this.</param>
+        /// <param name="e">The data we need to update the talbe.</param>
         private void Model_UpdateTable(object sender, ReversiUpdateTableEventArgs e)
         {
             _saved = false;
             _saveMenuItemEnabled = true;
             OnPropertyChanged("SaveMenuItemEnabled");
-            
-
 
             _gamePoints = "Player 1: " + e.Player1Points + " -- Player 2: " + e.Player2Points;
             OnPropertyChanged("GamePoints");
