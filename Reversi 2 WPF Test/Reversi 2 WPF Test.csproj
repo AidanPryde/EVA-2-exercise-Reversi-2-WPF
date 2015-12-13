@@ -6,7 +6,7 @@
     <ProjectGuid>{41A34B80-39EA-4973-A240-7B9A60F36197}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReversiTest</RootNamespace>
+    <RootNamespace>Reversi_2_WPF_Test</RootNamespace>
     <AssemblyName>Reversi 2 WPF Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
