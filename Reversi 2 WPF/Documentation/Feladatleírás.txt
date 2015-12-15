@@ -1,4 +1,4 @@
-1. beadandó feladat: Windows Forms grafikus felületû alkalmazás
+2. beadandó feladat: WPF grafikus felületû alkalmazás
 Közös követelmények:
 • A beadandók dokumentációból, valamint programból állnak, utóbbi csak a
 megfelelõ dokumentáció bemutatásával értékelhetõ. Csak funkcionálisan teljes, a
@@ -6,20 +6,15 @@ feladatnak megfelelõ, önállóan megvalósított, személyesen bemutatott program
 fogadható el.
 • A megvalósításnak felhasználóbarátnak, és könnyen kezelhetõnek kell lennie. A
 szerkezetében törekednie kell az objektumorientált szemlélet megtartására.
-• A programot háromrétegû (modell/nézet/perzisztencia) architektúrában kell
-felépíteni, amelyben elkülönül a megjelenítés, az üzleti logika, valamint az
-adatelérés (amennyiben része a feladatnak). Az egyes rétegeknek megfelelõ
-funkcionalitást kell biztosítania, és megfelelõ hierarchiában kell kommunikálnia
-(pl. a modell csak eseményekkel kommunikálhat a nézettel, a nézet nem
-végezheti az adatkezelést).
+• A programot MVVM architektúrában kell felépíteni, amelyben a megjelenítés
+rétege elkülönül a modellnézettõl, a modelltõl, valamint az adatkezeléstõl. A
+modell és az adatkezelés nem tartalmazhat semmilyen grafikus felületbeli
+osztályra történõ hivatkozást, csak eseményeket küldhet a nézetmodellnek. A
+nézetmodell nem tartalmazhat semmilyen játékbeli adatot, a nézet pedig
+semmilyen háttérkódot.
 • A modell mûködését egységtesztek segítségével kell ellenõrizni. Nem kell teljes
 körû tesztet végezni, azonban a lényeges funkciókat, és azok hatásait ellenõrizni
 kell.
-• A program játékfelületét dinamikusan kell létrehozni futási idõben. A
-megjelenítéshez lehet vezérlõket használni, vagy elemi grafikát. Egyes
-feladatoknál különbözõ méretû játéktábla létrehozását kell megvalósítani, ekkor
-ügyelni kell arra, hogy az ablakméret mindig alkalmazkodjon a játéktábla
-méretéhez.
 • A dokumentációnak jól áttekinthetõnek, megfelelõen formázottnak kell lennie,
 tartalmaznia kell a fejlesztõ adatait, a feladatleírást, a feladat elemzését,
 felhasználói eseteit (UML felhasználói esetek diagrammal), a program
