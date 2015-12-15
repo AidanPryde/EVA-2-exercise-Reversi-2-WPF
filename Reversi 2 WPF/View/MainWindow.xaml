@@ -97,7 +97,7 @@
                                         <Setter Property="Background" Value="YellowGreen" />
                                     </DataTrigger>
                                     <!--<DataTrigger Binding="{Binding BackColorInt}" Value="3">
-                                        <Setter Property="Background" Value="Grey" />
+                                        <Setter Property="Background" Value="Gray" />
                                     </DataTrigger>-->
                                     <DataTrigger Binding="{Binding TextColorInt}" Value="0">
                                         <Setter Property="Foreground" Value="White" />
@@ -109,7 +109,7 @@
                                         <Setter Property="Foreground" Value="YellowGreen" />
                                     </DataTrigger>
                                     <!--<DataTrigger Binding="{Binding TextColorInt}" Value="3">
-                                        <Setter Property="Foreground" Value="Grey" />
+                                        <Setter Property="Foreground" Value="Gray" />
                                     </DataTrigger>-->
                                 </Style.Triggers>
                             </Style>
